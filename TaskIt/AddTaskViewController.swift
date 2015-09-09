@@ -41,7 +41,14 @@ class AddTaskViewController: UIViewController {
     }
     @IBAction func addTaskButtonTapped(sender: UIButton) {
         
-       
+        let appDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
+        let managedObjectContext = appDelegate.managedObjectContext
+        let entityDescription = NSEntityDescription.entityForName("TaskModel", inManagedObjectContext: managedObjectContext!)
+        let task = TaskModel(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext!)
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey(kShouldCapitalizeTaskKey) == true {
+            task.task = taskTextField.text.capitalizedString
+        }
         else {
            task.task = taskTextField.text
         }
